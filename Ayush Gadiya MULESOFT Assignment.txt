@@ -1,0 +1,59 @@
+!pip install mysql
+!pip install mysql.connector
+!pip install mysql-connector-python
+import mysql.connector
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="Ayush",
+  auth_plugin="mysql_native_password"
+)
+mycursor = mydb.cursor()
+mycursor.execute("DROP DATABASE mulesoft")
+mycursor.execute("CREATE DATABASE mulesoft")
+mycursor.close()
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="Ayush",
+  auth_plugin="mysql_native_password",
+  database = "mulesoft"
+)
+mycursor = mydb.cursor()
+mycursor.execute("CREATE TABLE movies (movies_name VARCHAR(255), actor_name VARCHAR(255), actress_name VARCHAR(255), director_name VARCHAR(255), year_of_release INTEGER)");
+sql = "INSERT INTO movies (movies_name, actor_name, actress_name, director_name, year_of_release) VALUES (%s, %s, %s, %s, %s)"
+val = ("The Dark Knight", "Christian Bale", "Heath Ledger","Christopher Nolan" ,2008)
+mycursor.execute(sql, val)
+
+val = ("Kung Fu Panda", "Jack Black", "Angelina Jolie", "Mark Osborne", 2008)
+mycursor.execute(sql, val)
+
+val = ("Hum Apke Hai Kon", "Salman Khan", "Madhuri Dixit", "Sooraj Barjatya", 1994)
+mycursor.execute(sql, val)
+
+val = ("Sanju", "Ranbir Kapoor", "Sonam Kapoor", "Raj Kumar Hirani", 2018)
+mycursor.execute(sql, val)
+
+val = ("Lage Raho Munna Bhai", "Sanjay Datt", "Vidhya Balan", "Raj Kumar Hirani", 2006)
+mycursor.execute(sql, val)
+
+val = ("My Name is Khan", "Shah Rukh Khan", "Kajol ", "Karan Johar", 2010)
+mycursor.execute(sql, val)
+
+val = ("Mimi", "Kriti Sanon ","Pankaj Tripathi","Laxman Utekar",2021 )
+mycursor.execute(sql, val)
+
+mydb.commit()
+
+mycursor.execute("SELECT * FROM movies")
+
+myresult = mycursor.fetchall()
+
+for y in myresult:
+  print(y)
+mycursor.execute("SELECT director_name FROM movies where year_of_release = 2010")
+
+myresult = mycursor.fetchall()
+
+for y in myresult:
+  print(y[0])
